@@ -1,0 +1,90 @@
+server:
+  port: 9090
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
+    urls:
+      - name: Medicos
+        url: /v3/api-docs/medicos
+      - name: Pacientes
+        url: /v3/api-docs/pacientes
+      - name: Citas
+        url: /v3/api-docs/citas
+      - name: Examenes
+        url: /v3/api-docs/examenes
+      - name: Facturaciones
+        url: /v3/api-docs/facturaciones
+      - name: Historial Clinico
+        url: /v3/api-docs/historial-clinico
+      - name: Notificaciones
+        url: /v3/api-docs/notificaciones
+      - name: Recetas
+        url: /v3/api-docs/recetas
+
+spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: pacientes-service
+              uri: lb://PACIENTES-SERVICE
+              predicates:
+                - Path=/api/pacientes/**, /v3/api-docs/pacientes
+              filters:
+                - RewritePath=/v3/api-docs/pacientes, /v3/api-docs
+
+            - id: medicos-service
+              uri: lb://MEDICOS-SERVICE
+              predicates:
+                - Path=/api/medicos/**, /v3/api-docs/medicos
+              filters:
+                - RewritePath=/v3/api-docs/medicos, /v3/api-docs
+
+            - id: citas-service
+              uri: lb://CITAS-SERVICE
+              predicates:
+                - Path=/api/citas/**, /v3/api-docs/citas
+              filters:
+                - RewritePath=/v3/api-docs/citas, /v3/api-docs
+
+            - id: historial-clinico-service
+              uri: lb://HISTORIAL-CLINICO-SERVICE
+              predicates:
+                - Path=/api/historial-clinico/**, /v3/api-docs/historial-clinico
+              filters:
+                - RewritePath=/v3/api-docs/historial-clinico, /v3/api-docs
+
+            - id: recetas-service
+              uri: lb://RECETAS-SERVICE
+              predicates:
+                - Path=/api/recetas/**, /v3/api-docs/recetas
+              filters:
+                - RewritePath=/v3/api-docs/recetas, /v3/api-docs
+
+            - id: examenes-service
+              uri: lb://EXAMENES-SERVICE
+              predicates:
+                - Path=/api/examenes/**, /v3/api-docs/examenes
+              filters:
+                - RewritePath=/v3/api-docs/examenes, /v3/api-docs
+
+            - id: facturaciones-service
+              uri: lb://FACTURACIONES-SERVICE
+              predicates:
+                - Path=/api/facturaciones/**, /v3/api-docs/facturaciones
+              filters:
+                - RewritePath=/v3/api-docs/facturaciones, /v3/api-docs
+
+            - id: notificaciones-service
+              uri: lb://NOTIFICACIONES-SERVICE
+              predicates:
+                - Path=/api/notificaciones/**, /v3/api-docs/notificaciones
+              filters:
+                - RewritePath=/v3/api-docs/notificaciones, /v3/api-docs
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka/}

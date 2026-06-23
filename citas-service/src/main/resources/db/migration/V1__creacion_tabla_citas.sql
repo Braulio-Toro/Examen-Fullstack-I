@@ -1,0 +1,7 @@
+CREATE TABLE citas (
+    id BIGINT AUTO_INCREMENT PRIMARY KEY,
+    paciente_id BIGINT NOT NULL,
+    medico_id BIGINT NOT NULL,
+    fecha DATETIME NOT NULL,
+    estado VARCHAR(50) NOT NULL
+);
